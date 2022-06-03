@@ -15,17 +15,16 @@ public class AuthController {
 
     @GetMapping("/loginForm")
     public String loginForm(){
-        return "loginForm";
+        return "sign/loginForm";
     }
     @GetMapping("/join")
     public String join(){
-        return "join";
+        return "sign/join";
     }
 
     @PostMapping("/join")
     public String joinProc(User user){
         User u = userService.save(user);
-
         System.out.println(u.toString());
         return "redirect:/loginForm";
     }
