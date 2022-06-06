@@ -1,24 +1,24 @@
 <!doctype html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head('멤버 목록')"></head>
+<head th:replace="fragments/header :: head('보드 목록')"></head>
 <nav th:replace="fragments/navigation :: menu"></nav>
 <body>
-<h1>Member List</h1>
+<h1>Board List</h1>
 <table class="table">
     <thead>
     <tr>
         <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Email</th>
-        <th scope="coll">Age</th>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+        <th scope="coll">LastDate</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="member : ${memberList}">
-        <td th:text="${member.id}"></td>
-        <td> <a th:href="@{/memberDetail}" th:text="${member.username}"></a></td>
-        <td th:text="${member.email}"></td>
-        <td th:text="${member.getAge()}"></td>
+    <tr th:each="board : ${boardList}">
+        <td th:text="${board.getId()}"></td>
+        <td> <a th:href="@{/boardDetail/{id}(id=${board.getId()})}" th:text="${board.getTitle()}"></a></td>
+        <td th:text="${board.getAuthor()}"></td>
+        <td th:text="${board.getModifiedDate()}"></td>
     </tr>
 
     </tbody>
