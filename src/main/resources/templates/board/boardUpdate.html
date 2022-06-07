@@ -4,7 +4,7 @@
 <nav th:replace="fragments/navigation :: menu"></nav>
 <body>
 <h1>Board Update</h1>
-<form action="@{/board/update/{id}(id=${board.getId()})}" method="post">
+<form th:action="@{/board/update/{id}(id=${board.getId()})}" method="post">
     <div class="form-floating mb-3">
         <input type="text" class="form-control" id="id" name="id" th:value="${board.getId()}" readonly>
         <label for="id">ID</label>
@@ -13,12 +13,12 @@
         <input type="text" class="form-control" id="title" name="title" th:value="${board.getTitle()}">
         <label for="title">Title</label>
     </div>
-    <div class="form-floating">
+    <div class="form-floating mb-3">
         <input type="text" class="form-control" id="author" name="author" th:value="${board.getAuthor()}" readonly>
         <label for="author">Author</label>
     </div>
-    <div class="form-floating">
-        <textarea class="form-control" id="content" name="content" th:value="${board.getContent()}" style="height: 100px"></textarea>
+    <div class="form-floating mb-3">
+        <textarea class="form-control" id="content" name="content" th:text="${board.getContent()}" style="height: 100px"></textarea>
         <label for="content">Content</label>
     </div>
     <a th:href="@{/boardList}" class="btn btn-secondary">취소</a>

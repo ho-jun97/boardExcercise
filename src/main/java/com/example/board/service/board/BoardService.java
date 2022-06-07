@@ -5,6 +5,7 @@ import com.example.board.domain.board.BoardRepository;
 import com.example.board.web.dto.BoardListResponseDto;
 import com.example.board.web.dto.BoardResponseDto;
 import com.example.board.web.dto.BoardSaveRequestDto;
+import com.example.board.web.dto.BoardUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,5 +42,16 @@ public class BoardService {
                 orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다. id="+id));
 
         return new BoardResponseDto(board);
+    }
+    @Transactional
+    public Long update(Long id, BoardUpdateRequestDto requestDto){
+        Board board = boardRepository.findById(id).
+                orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다. id="+id));
+
+        System.out.println("Service Update 진행중()");
+        board.update(requestDto.getTitle(), requestDto.getContent());
+
+        System.out.println(board.toString());
+        return id;
     }
 }
