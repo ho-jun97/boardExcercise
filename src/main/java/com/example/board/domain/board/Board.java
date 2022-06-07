@@ -28,6 +28,11 @@ public class Board extends BaseTimeEntity {
         this.author = author;
     }
 
+    public void update(String title, String content){
+        System.out.println("Board Entity update 진행중()");
+        this.title = title;
+        this.content = content;
+    }
     @Override
     public String toString() {
         return "Board{" +
