@@ -18,7 +18,7 @@ public class BoardController {
     @PostMapping("/board/save")
     public String save(BoardSaveRequestDto requestDto){
         boardService.save(requestDto);
-        return "index";
+        return "redirect:/boardList";
     }
     @GetMapping("/board/delete/{id}")
     public String deleteBoard(@PathVariable Long id){

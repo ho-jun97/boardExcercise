@@ -7,6 +7,9 @@ import com.example.board.web.dto.BoardResponseDto;
 import com.example.board.web.dto.BoardSaveRequestDto;
 import com.example.board.web.dto.BoardUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,12 +33,12 @@ public class BoardService {
                 orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다. id="+ id));
         boardRepository.delete(board);
     }
-
     @Transactional(readOnly = true)
-    public List<BoardListResponseDto> findAllDesc(){
-        return boardRepository.findAllDesc().stream()
-                .map(BoardListResponseDto::new)
-                .collect(Collectors.toList());
+    public Page<BoardListResponseDto> findBoards(String title, String content,Pageable pageable){
+        Page<Board> list = boardRepository.findByTitleContainingOrContentContaining(title, content,pageable);
+        Page<BoardListResponseDto> boardDtoList = list.map(BoardListResponseDto::new);
+
+        return boardDtoList;
     }
     public BoardResponseDto findById(Long id){
         Board board = boardRepository.findById(id).
