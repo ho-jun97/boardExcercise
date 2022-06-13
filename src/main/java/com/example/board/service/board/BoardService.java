@@ -34,8 +34,15 @@ public class BoardService {
         boardRepository.delete(board);
     }
     @Transactional(readOnly = true)
-    public Page<BoardListResponseDto> findBoards(String title, String content,Pageable pageable){
-        Page<Board> list = boardRepository.findByTitleContainingOrContentContaining(title, content,pageable);
+    public Page<BoardListResponseDto> findBoardList(String searchText, String select,Pageable pageable){
+        Page<Board> list;
+        if(select.equals("제목")){
+            list = boardRepository.findByTitleContaining(searchText,pageable);
+        }else if(select.equals("저자")){
+            list = boardRepository.findByAuthorContaining(searchText,pageable);
+        }else{
+            list = boardRepository.findAllDesc(pageable);
+        }
         Page<BoardListResponseDto> boardDtoList = list.map(BoardListResponseDto::new);
 
         return boardDtoList;

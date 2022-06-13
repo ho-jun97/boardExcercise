@@ -10,6 +10,7 @@ import com.example.board.web.dto.BoardResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,10 +40,11 @@ public class indexController {
     }
 
     @GetMapping("/boardList")
-    public String indexBoard(Model model, @PageableDefault(size=3) Pageable pageable,
+    public String indexBoard(Model model, @PageableDefault(size=3, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                    @RequestParam(required = false, defaultValue = "") String select,
                     @RequestParam(required=false, defaultValue = "") String searchText){
         System.out.println("SearchText : " + searchText);
-        Page<BoardListResponseDto> boardList = boardService.findBoards(searchText, searchText, pageable);
+        Page<BoardListResponseDto> boardList = boardService.findBoardList(searchText, select, pageable);
 
         int startPage = Math.max(1, boardList.getPageable().getPageNumber()-4);
         int endPage = Math.min(boardList.getTotalPages(), boardList.getPageable().getPageNumber()+4);
