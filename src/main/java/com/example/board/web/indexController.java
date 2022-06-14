@@ -40,7 +40,7 @@ public class indexController {
     }
 
     @GetMapping("/boardList")
-    public String indexBoard(Model model, @PageableDefault(size=3, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+    public String indexBoard(Model model, @PageableDefault(size=5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                     @RequestParam(required = false, defaultValue = "") String select,
                     @RequestParam(required=false, defaultValue = "") String searchText){
         System.out.println("SearchText : " + searchText);
