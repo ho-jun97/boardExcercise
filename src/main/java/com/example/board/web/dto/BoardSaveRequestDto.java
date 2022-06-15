@@ -1,6 +1,7 @@
 package com.example.board.web.dto;
 
 import com.example.board.domain.board.Board;
+import com.example.board.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class BoardSaveRequestDto {
     private String title;
     private String content;
-    private String author;
+    private User user;
 
     public void setTitle(String title) {
         this.title = title;
@@ -20,15 +21,15 @@ public class BoardSaveRequestDto {
         this.content = content;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Board toEntity(){
         return Board.builder()
                 .title(title)
                 .content(content)
-                .author(author)
+                .user(user)
                 .build();
     }
 }

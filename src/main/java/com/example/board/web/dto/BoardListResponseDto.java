@@ -1,6 +1,7 @@
 package com.example.board.web.dto;
 
 import com.example.board.domain.board.Board;
+import com.example.board.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,13 +17,13 @@ import java.util.stream.Collectors;
 public class BoardListResponseDto {
     private Long id;
     private String title;
-    private String author;
+    private User user;
     private LocalDateTime modifiedDate;
 
-    public BoardListResponseDto(Long id, String title, String author, LocalDateTime modifiedDate) {
+    public BoardListResponseDto(Long id, String title, User user, LocalDateTime modifiedDate) {
         this.id = id;
         this.title = title;
-        this.author = author;
+        this.user = user;
         this.modifiedDate = modifiedDate;
     }
 
@@ -30,7 +31,7 @@ public class BoardListResponseDto {
     public BoardListResponseDto(Board entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
-        this.author = entity.getAuthor();
+        this.user = entity.getUser();
         this.modifiedDate = entity.getModifiedDate();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.board.web;
 
 
+import com.example.board.config.auth.PrincipalDetails;
 import com.example.board.domain.board.Board;
 import com.example.board.domain.user.User;
 import com.example.board.service.UserService;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,10 +58,11 @@ public class indexController {
         return "board/boardList";
     }
     @GetMapping("/boardDetail/{id}")
-    public String boardDetail(@PathVariable Long id, Model model){
+    public String boardDetail(@PathVariable Long id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
         BoardResponseDto board = boardService.findById(id);
+        User user = principalDetails.getUser();
         model.addAttribute("board", board);
-
+        model.addAttribute("user", user);
         return "/board/boardUpdate";
     }
 
