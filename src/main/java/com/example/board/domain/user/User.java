@@ -1,13 +1,13 @@
 package com.example.board.domain.user;
 
+import com.example.board.domain.board.Board;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -20,10 +20,14 @@ public class User {
     private Long Id;
     private String username;
     private String password;
+    private String nickname;
     private String email;
     private String age;
     private String myself;
     private String role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Board> boardList = new ArrayList<>();
 
     public void setId(Long id) {
         Id = id;
@@ -45,24 +49,18 @@ public class User {
         this.username = username;
     }
 
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public void setAge(String age) {
         this.age = age;
     }
-
     public void setMyself(String myself) {
         this.myself = myself;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "Id=" + Id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", age='" + age + '\'' +
-                ", myself='" + myself + '\'' +
-                ", role='" + role + '\'' +
-                '}';
+    public void addBoard(Board board){
+        this.boardList.add(board);
     }
 }
