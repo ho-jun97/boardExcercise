@@ -35,11 +35,11 @@ public class BoardService {
     }
     @Transactional(readOnly = true)
     public Page<BoardListResponseDto> findBoardList(String searchText, String select,Pageable pageable){
-        Page<Board> list;
+        Page<Board> list = null;
         if(select.equals("제목")){
             list = boardRepository.findByTitleContaining(searchText,pageable);
         }else if(select.equals("저자")){
-            list = boardRepository.findByAuthorContaining(searchText,pageable);
+            list = boardRepository.findByAuthorDesc(searchText,pageable);
         }else{
             list = boardRepository.findAllDesc(pageable);
         }

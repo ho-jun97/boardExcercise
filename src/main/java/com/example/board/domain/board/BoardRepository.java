@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
@@ -19,5 +20,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     Page<Board> findByTitleContaining(String title, Pageable pageable);
 
-    Page<Board> findByAuthorContaining(String author, Pageable pageable);
+    @Query("SELECT b FROM Board b WHERE b.user.nickname LIKE %:author%")
+    Page<Board> findByAuthorDesc(@Param("author") String author, Pageable pageable);
 }

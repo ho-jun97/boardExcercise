@@ -21,8 +21,10 @@ public class BoardController {
     @PostMapping("/board/save")
     public String save(BoardSaveRequestDto requestDto, @AuthenticationPrincipal PrincipalDetails principalDetails){
         User user = principalDetails.getUser();
-        requestDto.setAuthor(user.getUsername());
+        requestDto.setUser(user);
+        System.out.println(user);
         boardService.save(requestDto);
+//        user.addBoard(requestDto.toEntity());
         return "redirect:/boardList";
     }
     @GetMapping("/board/delete/{id}")
@@ -35,7 +37,6 @@ public class BoardController {
     public String updateBoard(@PathVariable Long id, BoardUpdateRequestDto requestDto){
         System.out.println("board 수정중()...");
         boardService.update(id,requestDto);
-
-        return "redirect:/boardDetail/{id}";
+        return "redirect:/boardList";
     }
 }
