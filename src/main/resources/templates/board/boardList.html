@@ -35,7 +35,7 @@
                     <tr th:each="board : ${boardList}">
                         <td th:text="${board.getId()}"></td>
                         <td> <a th:href="@{/boardDetail/{id}(id=${board.getId()})}" th:text="${board.getTitle()}"></a></td>
-                        <td th:text="${board.getAuthor()}"></td>
+                        <td th:text="${board.getUser().getNickname()}"></td>
                         <td th:text="${board.getModifiedDate()}"></td>
                     </tr>
                 </tbody>
