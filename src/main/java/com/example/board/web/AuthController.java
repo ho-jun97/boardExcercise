@@ -1,10 +1,9 @@
 package com.example.board.web;
 
 import com.example.board.domain.user.User;
-import com.example.board.service.UserService;
+import com.example.board.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @RequiredArgsConstructor

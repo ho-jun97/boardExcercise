@@ -2,9 +2,8 @@ package com.example.board.web;
 
 
 import com.example.board.config.auth.PrincipalDetails;
-import com.example.board.domain.board.Board;
 import com.example.board.domain.user.User;
-import com.example.board.service.UserService;
+import com.example.board.service.user.UserService;
 import com.example.board.service.board.BoardService;
 import com.example.board.web.dto.BoardListResponseDto;
 import com.example.board.web.dto.BoardResponseDto;
