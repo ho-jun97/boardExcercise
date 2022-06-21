@@ -5,12 +5,6 @@ import com.example.board.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
@@ -18,9 +12,9 @@ public class BoardListResponseDto {
     private Long id;
     private String title;
     private User user;
-    private LocalDateTime modifiedDate;
+    private String modifiedDate;
 
-    public BoardListResponseDto(Long id, String title, User user, LocalDateTime modifiedDate) {
+    public BoardListResponseDto(Long id, String title, User user, String modifiedDate) {
         this.id = id;
         this.title = title;
         this.user = user;
