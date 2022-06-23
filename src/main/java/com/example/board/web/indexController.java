@@ -7,6 +7,7 @@ import com.example.board.service.user.UserService;
 import com.example.board.service.board.BoardService;
 import com.example.board.web.dto.BoardListResponseDto;
 import com.example.board.web.dto.BoardResponseDto;
+import com.example.board.web.dto.UserListResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +42,7 @@ public class indexController {
     }
 
     @GetMapping("/boardList")
-    public String indexBoard(Model model, @PageableDefault(size=5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+    public String indexBoardList(Model model, @PageableDefault(size=5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                     @RequestParam(required = false, defaultValue = "") String select,
                     @RequestParam(required=false, defaultValue = "") String searchText){
         System.out.println("SearchText : " + searchText);
@@ -66,12 +67,22 @@ public class indexController {
     }
 
     // Member Index
-    @GetMapping("/memberList")
-    public String getMemberList(Model model){
-        List<User> memberList = userService.getUsers();
-        model.addAttribute("memberList",memberList);
+    @GetMapping("/userList")
+    public String getUserList(Model model, @PageableDefault(size=2, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+                                ,@RequestParam(required = false, defaultValue = "") String select
+                                ,@RequestParam(required = false, defaultValue = "") String searchText){
+        System.out.println("선택 : " + select + '\n'+ "검색 : " + searchText);
+        Page<UserListResponseDto> userList = userService.findUserList(select, searchText, pageable);
 
-        return "memberList";
+
+        int startPage = Math.max(1, userList.getPageable().getPageNumber()-4);
+        int endPage = Math.min(userList.getTotalPages(), userList.getPageable().getPageNumber()+4);
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("userList",userList);
+
+        return "userList";
     }
     @GetMapping("/loginForm")
     public String loginForm(){
