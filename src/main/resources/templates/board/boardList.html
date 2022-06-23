@@ -9,7 +9,6 @@
     <form class="row g-3 d-flex justify-content-end" method="get" th:action="@{/boardList}" >
         <div class="col-auto">
             <select th:value="${param.select}" id="select" name="select" class="form-select" aria-label="Default select example">
-                <option>선택</option>
                 <option th:selected="${#strings.equals(param.select,'제목')}">제목</option>
                 <option th:selected="${#strings.equals(param.select,'저자')}">저자</option>
             </select>
