@@ -1,11 +1,14 @@
 package com.example.board.domain.user;
 
+import com.example.board.domain.BaseTimeEntity;
 import com.example.board.domain.board.Board;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,16 +16,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
     private String username;
     private String password;
     private String nickname;
+    @Email
     private String email;
-    private String age;
     private String myself;
     private String role;
 
@@ -30,7 +33,7 @@ public class User {
     private List<Board> boardList = new ArrayList<>();
 
     public void setId(Long id) {
-        Id = id;
+        id = id;
     }
 
     public void setPassword(String password) {
@@ -53,9 +56,6 @@ public class User {
         this.nickname = nickname;
     }
 
-    public void setAge(String age) {
-        this.age = age;
-    }
     public void setMyself(String myself) {
         this.myself = myself;
     }
