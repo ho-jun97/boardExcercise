@@ -1,4 +1,4 @@
-package com.example.board.web.dto;
+package com.example.board.web.dto.board;
 
 import com.example.board.domain.board.Board;
 import com.example.board.domain.user.User;

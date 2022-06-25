@@ -2,19 +2,15 @@ package com.example.board.service.board;
 
 import com.example.board.domain.board.Board;
 import com.example.board.domain.board.BoardRepository;
-import com.example.board.web.dto.BoardListResponseDto;
-import com.example.board.web.dto.BoardResponseDto;
-import com.example.board.web.dto.BoardSaveRequestDto;
-import com.example.board.web.dto.BoardUpdateRequestDto;
+import com.example.board.web.dto.board.BoardListResponseDto;
+import com.example.board.web.dto.board.BoardResponseDto;
+import com.example.board.web.dto.board.BoardSaveRequestDto;
+import com.example.board.web.dto.board.BoardUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service

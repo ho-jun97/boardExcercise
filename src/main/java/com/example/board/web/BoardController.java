@@ -1,11 +1,10 @@
 package com.example.board.web;
 
 import com.example.board.config.auth.PrincipalDetails;
-import com.example.board.domain.board.Board;
 import com.example.board.domain.user.User;
 import com.example.board.service.board.BoardService;
-import com.example.board.web.dto.BoardSaveRequestDto;
-import com.example.board.web.dto.BoardUpdateRequestDto;
+import com.example.board.web.dto.board.BoardSaveRequestDto;
+import com.example.board.web.dto.board.BoardUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

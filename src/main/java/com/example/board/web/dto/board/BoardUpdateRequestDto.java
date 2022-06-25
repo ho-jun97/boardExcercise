@@ -1,4 +1,4 @@
-package com.example.board.web.dto;
+package com.example.board.web.dto.board;
 
 import lombok.Builder;
 import lombok.Getter;
