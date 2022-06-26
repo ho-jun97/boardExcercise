@@ -1,10 +1,12 @@
 package com.example.board.domain.board;
 
 import com.example.board.domain.BaseTimeEntity;
+import com.example.board.domain.comment.Comment;
 import com.example.board.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -21,6 +23,9 @@ public class Board extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
     @Builder
     public Board(String title, String content, User user){
