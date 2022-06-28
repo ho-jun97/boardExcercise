@@ -5,8 +5,8 @@ import com.example.board.config.auth.PrincipalDetails;
 import com.example.board.domain.user.User;
 import com.example.board.service.user.UserService;
 import com.example.board.service.board.BoardService;
-import com.example.board.web.dto.BoardListResponseDto;
-import com.example.board.web.dto.BoardResponseDto;
+import com.example.board.web.dto.board.BoardListResponseDto;
+import com.example.board.web.dto.board.BoardResponseDto;
 import com.example.board.web.dto.UserListResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,8 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
