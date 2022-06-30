@@ -20,10 +20,7 @@ public class BoardController {
     @PostMapping("/board/save")
     public String save(BoardSaveRequestDto requestDto, @AuthenticationPrincipal PrincipalDetails principalDetails){
         User user = principalDetails.getUser();
-        requestDto.setUser(user);
-        System.out.println(user);
-        boardService.save(requestDto);
-//        user.addBoard(requestDto.toEntity());
+        boardService.save(user,requestDto);
         return "redirect:/boardList";
     }
     @GetMapping("/board/delete/{id}")

@@ -6,6 +6,7 @@ import com.example.board.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,12 +21,12 @@ public class Board extends BaseTimeEntity {
     private String title;
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public Board(String title, String content, User user){
@@ -34,9 +35,18 @@ public class Board extends BaseTimeEntity {
         this.user = user;
     }
 
+    // 영속성, 더티체크
     public void update(String title, String content){
         System.out.println("Board Entity update 진행중()");
         this.title = title;
         this.content = content;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void addComment(Comment comment){
+        this.comments.add(comment);
     }
 }

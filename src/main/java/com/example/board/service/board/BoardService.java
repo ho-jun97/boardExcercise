@@ -4,6 +4,8 @@ import com.example.board.config.auth.PrincipalDetails;
 import com.example.board.domain.board.Board;
 import com.example.board.domain.board.BoardRepository;
 import com.example.board.domain.user.User;
+import com.example.board.domain.user.UserRepository;
+import com.example.board.service.user.UserService;
 import com.example.board.web.dto.board.BoardListResponseDto;
 import com.example.board.web.dto.board.BoardResponseDto;
 import com.example.board.web.dto.board.BoardSaveRequestDto;
@@ -19,11 +21,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public Long save(User user, BoardSaveRequestDto requestDto){
+        User u = userRepository.findById(user.getId()).orElseThrow(()->
+                new IllegalArgumentException("해당 유저가 없습니다."));
         Board board = requestDto.toEntity();
-        user.addBoard(board);
+        u.addBoard(board);
         return boardRepository.save(board).getId();
     }
 
