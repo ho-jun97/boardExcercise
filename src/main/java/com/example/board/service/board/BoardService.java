@@ -1,7 +1,9 @@
 package com.example.board.service.board;
 
+import com.example.board.config.auth.PrincipalDetails;
 import com.example.board.domain.board.Board;
 import com.example.board.domain.board.BoardRepository;
+import com.example.board.domain.user.User;
 import com.example.board.web.dto.board.BoardListResponseDto;
 import com.example.board.web.dto.board.BoardResponseDto;
 import com.example.board.web.dto.board.BoardSaveRequestDto;
@@ -19,8 +21,10 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public Long save(BoardSaveRequestDto requestDto){
-        return boardRepository.save(requestDto.toEntity()).getId();
+    public Long save(User user, BoardSaveRequestDto requestDto){
+        Board board = requestDto.toEntity();
+        user.addBoard(board);
+        return boardRepository.save(board).getId();
     }
 
     @Transactional

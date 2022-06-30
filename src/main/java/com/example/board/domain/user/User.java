@@ -2,17 +2,18 @@ package com.example.board.domain.user;
 
 import com.example.board.domain.BaseTimeEntity;
 import com.example.board.domain.board.Board;
+import com.example.board.domain.comment.Comment;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -29,8 +30,11 @@ public class User extends BaseTimeEntity {
     private String myself;
     private String role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Board> boardList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Comment> commentList = new ArrayList<>();
 
     public void setId(Long id) {
         id = id;
@@ -51,7 +55,6 @@ public class User extends BaseTimeEntity {
     public void setUsername(String username) {
         this.username = username;
     }
-
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
@@ -61,6 +64,12 @@ public class User extends BaseTimeEntity {
     }
 
     public void addBoard(Board board){
+        board.setUser(this);
         this.boardList.add(board);
     }
+
+    public void addComment(Comment comment){
+        this.commentList.add(comment);
+    }
+
 }
