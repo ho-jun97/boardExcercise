@@ -13,7 +13,7 @@ import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -69,6 +69,7 @@ public class User extends BaseTimeEntity {
     }
 
     public void addComment(Comment comment){
+        comment.setUser(this);
         this.commentList.add(comment);
     }
 

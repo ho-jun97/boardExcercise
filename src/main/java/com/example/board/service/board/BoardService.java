@@ -24,11 +24,10 @@ public class BoardService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long save(User user, BoardSaveRequestDto requestDto){
-        User u = userRepository.findById(user.getId()).orElseThrow(()->
-                new IllegalArgumentException("해당 유저가 없습니다."));
+    public Long save(Long userId, BoardSaveRequestDto requestDto){
+        User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("해당 유저가 없습니다."));
         Board board = requestDto.toEntity();
-        u.addBoard(board);
+        user.addBoard(board);
         return boardRepository.save(board).getId();
     }
 

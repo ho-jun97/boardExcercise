@@ -20,7 +20,7 @@ public class BoardController {
     @PostMapping("/board/save")
     public String save(BoardSaveRequestDto requestDto, @AuthenticationPrincipal PrincipalDetails principalDetails){
         User user = principalDetails.getUser();
-        boardService.save(user,requestDto);
+        boardService.save(user.getId(),requestDto);
         return "redirect:/boardList";
     }
     @GetMapping("/board/delete/{id}")

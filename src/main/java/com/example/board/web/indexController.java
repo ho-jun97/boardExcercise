@@ -8,6 +8,7 @@ import com.example.board.service.board.BoardService;
 import com.example.board.web.dto.board.BoardListResponseDto;
 import com.example.board.web.dto.board.BoardResponseDto;
 import com.example.board.web.dto.UserListResponseDto;
+import com.example.board.web.dto.comment.CommentResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -58,6 +61,11 @@ public class indexController {
     @GetMapping("/boardDetail/{id}")
     public String boardDetail(@PathVariable Long id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
         BoardResponseDto board = boardService.findById(id);
+        List<CommentResponseDto> commentList = board.getComments();
+        System.out.println("댓글 갯수 : " + commentList.size());
+        if(commentList != null && !commentList.isEmpty()){
+            model.addAttribute("commentList",commentList);
+        }
         User user = principalDetails.getUser();
         model.addAttribute("board", board);
         model.addAttribute("user", user);

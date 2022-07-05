@@ -47,6 +47,7 @@ public class Board extends BaseTimeEntity {
     }
 
     public void addComment(Comment comment){
+        comment.setBoard(this);
         this.comments.add(comment);
     }
 }

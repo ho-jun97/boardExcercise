@@ -19,11 +19,11 @@ public class Comment extends BaseTimeEntity {
     private Long id;
     private String comment; // 내용
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board; // 보드
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user; // 작성자
 
@@ -35,4 +35,21 @@ public class Comment extends BaseTimeEntity {
         this.user = user;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", comment='" + comment + '\'' +
+                ", board=" + board +
+                ", user=" + user +
+                '}';
+    }
 }
