@@ -1,5 +1,8 @@
 package com.example.board.config;
 
+import com.example.board.config.auth.CustomOAuth2UserService;
+import com.example.board.domain.user.Role;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,9 +10,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@Configuration
+
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public BCryptPasswordEncoder encodePwd(){
@@ -18,20 +24,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.authorizeRequests()
-                    .antMatchers("/user/**").authenticated()
-                    .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-                    .anyRequest().permitAll()
+        http
+                .csrf().disable()
+                .headers().frameOptions().disable()
                 .and()
-                .formLogin()
-                    .loginPage("/loginForm")
-                    .loginProcessingUrl("/login")
-                    .defaultSuccessUrl("/")
-                    .and()
-                .logout()
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/loginForm");
-
+                    .authorizeRequests()
+                    .antMatchers("/","/asset/**","/loginForm","/boardList").permitAll()
+                    .antMatchers("/boardList").hasRole(Role.USER.name())
+                    .anyRequest().authenticated()
+                .and()
+                    .logout()
+                        .logoutUrl("/logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .logoutSuccessUrl("/")
+                .and()
+                    .oauth2Login()
+                        .userInfoEndpoint()
+                            .userService(customOAuth2UserService);
     }
 }

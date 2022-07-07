@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: head('멤버 목록')"></head>
-<nav th:replace="fragments/navigation :: menu"></nav>
+<nav th:replace="fragments/navigation :: menu(${userName})"></nav>
 <body>
 <div class="container">
     <br>
@@ -26,7 +26,6 @@
         <thead>
         <tr>
             <th scope="col">No.</th>
-            <th scope="col">Username</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">최근수정</th>
@@ -35,8 +34,7 @@
         <tbody>
         <tr th:each="user : ${userList}">
             <td th:text="${user.id}"></td>
-            <td th:text="${user.username}"></td>
-            <td> <a th:href="@{/userDetails}" th:text="${user.nickname}"></a></td>
+            <td> <a th:href="@{/userDetails}" th:text="${user.name}"></a></td>
             <td th:text="${user.email}"></td>
             <td th:text="${user.getModifiedDate()}"></td>
         </tr>

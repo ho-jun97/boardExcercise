@@ -1,11 +1,10 @@
 package com.example.board.service.board;
 
-import com.example.board.config.auth.PrincipalDetails;
+import com.example.board.config.auth.dto.SessionUser;
 import com.example.board.domain.board.Board;
 import com.example.board.domain.board.BoardRepository;
 import com.example.board.domain.user.User;
 import com.example.board.domain.user.UserRepository;
-import com.example.board.service.user.UserService;
 import com.example.board.web.dto.board.BoardListResponseDto;
 import com.example.board.web.dto.board.BoardResponseDto;
 import com.example.board.web.dto.board.BoardSaveRequestDto;
@@ -24,8 +23,8 @@ public class BoardService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long save(Long userId, BoardSaveRequestDto requestDto){
-        User user = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("해당 유저가 없습니다."));
+    public Long save(String email, BoardSaveRequestDto requestDto){
+        User user = userRepository.findByEmail(email).orElseThrow(()->new IllegalArgumentException("해당 유저가 없습니다."));
         Board board = requestDto.toEntity();
         user.addBoard(board);
         return boardRepository.save(board).getId();
@@ -43,7 +42,7 @@ public class BoardService {
         if(select.equals("제목")){
             list = boardRepository.findByTitleContaining(searchText,pageable);
         }else if(select.equals("저자")){
-            list = boardRepository.findByAuthorDesc(searchText,pageable);
+            list = boardRepository.findByNameDesc(searchText,pageable);
         }else{
             list = boardRepository.findAllDesc(pageable);
         }

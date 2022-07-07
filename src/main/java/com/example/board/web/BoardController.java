@@ -1,6 +1,7 @@
 package com.example.board.web;
 
-import com.example.board.config.auth.PrincipalDetails;
+import com.example.board.config.auth.LoginUser;
+import com.example.board.config.auth.dto.SessionUser;
 import com.example.board.domain.user.User;
 import com.example.board.service.board.BoardService;
 import com.example.board.web.dto.board.BoardSaveRequestDto;
@@ -18,9 +19,8 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping("/board/save")
-    public String save(BoardSaveRequestDto requestDto, @AuthenticationPrincipal PrincipalDetails principalDetails){
-        User user = principalDetails.getUser();
-        boardService.save(user.getId(),requestDto);
+    public String save(BoardSaveRequestDto requestDto, @LoginUser SessionUser user){
+        boardService.save(user.getEmail(),requestDto);
         return "redirect:/boardList";
     }
     @GetMapping("/board/delete/{id}")

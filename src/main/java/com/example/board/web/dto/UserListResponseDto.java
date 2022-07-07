@@ -9,16 +9,14 @@ import lombok.NoArgsConstructor;
 @Getter
 public class UserListResponseDto {
     private Long id;
-    private String username;
-    private String nickname;
+    private String name;
     private String email;
     private String modifiedDate;
 
     @Builder
     public UserListResponseDto(User user){
         this.id = user.getId();
-        this.username = user.getUsername();
-        this.nickname = user.getNickname();
+        this.name = user.getName();
         this.email = user.getEmail();
         this.modifiedDate = user.getModifiedDate();
     }

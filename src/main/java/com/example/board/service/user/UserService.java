@@ -12,22 +12,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class UserService {
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
 
-    public User save(User user){
-        user.setRole("ROLE_USER");
-        String rawPwd = user.getPassword();
-        String encPwd = bCryptPasswordEncoder.encode(rawPwd);
-        user.setPassword(encPwd);
-        userRepository.save(user);
 
-        return user;
-    }
     public Page<UserListResponseDto> findUserList(String select, String searchText, Pageable pageable){
         Page<User> users = null;
         if(select.equals("이름")){
-            users = userRepository.findByNicknameContaining(searchText, pageable);
+            users = userRepository.findByNameContaining(searchText, pageable);
         }else if(select.equals("번호")){
             users = userRepository.findById(Long.parseLong(searchText), pageable);
         }else{

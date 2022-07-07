@@ -1,8 +1,8 @@
 package com.example.board.web;
 
 
-import com.example.board.config.auth.PrincipalDetails;
-import com.example.board.domain.user.User;
+import com.example.board.config.auth.LoginUser;
+import com.example.board.config.auth.dto.SessionUser;
 import com.example.board.service.user.UserService;
 import com.example.board.service.board.BoardService;
 import com.example.board.web.dto.board.BoardListResponseDto;
@@ -14,13 +14,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -29,16 +29,25 @@ public class indexController {
 
     private final BoardService boardService;
     private final UserService userService;
+    private final HttpSession httpSession;
 
     // Main Index
     @GetMapping("/")
-    public String index(){
+    public String index(Model model, @LoginUser SessionUser user){
+//        String userName= user==null?"":user.getName();
+        if(user!=null) {
+            model.addAttribute("userName", user.getName());
+        }
+        System.out.println(httpSession.getAttribute("user"));
         return "index";
     }
 
     // Board Index
     @GetMapping("/board/save")
-    public String boardSave(){
+    public String boardSave(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        String userName= user==null?"":user.getName();
+        model.addAttribute("userName", user.getName());
         return "/board/boardForm";
     }
 
@@ -55,18 +64,23 @@ public class indexController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("boardList", boardList);
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        String userName= user==null?"":user.getName();
+        model.addAttribute("userName", user.getName());
 
         return "board/boardList";
     }
     @GetMapping("/boardDetail/{id}")
-    public String boardDetail(@PathVariable Long id, Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
+    public String boardDetail(@PathVariable Long id, Model model){
         BoardResponseDto board = boardService.findById(id);
         List<CommentResponseDto> commentList = board.getComments();
         System.out.println("댓글 갯수 : " + commentList.size());
         if(commentList != null && !commentList.isEmpty()){
             model.addAttribute("commentList",commentList);
         }
-        User user = principalDetails.getUser();
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        String userName= user==null?"":user.getName();
+        model.addAttribute("userName", userName);
         model.addAttribute("board", board);
         model.addAttribute("user", user);
         return "/board/boardUpdate";
@@ -87,6 +101,9 @@ public class indexController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("userList",userList);
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        String userName= user==null?"":user.getName();
+        model.addAttribute("userName", user.getName());
 
         return "userList";
     }

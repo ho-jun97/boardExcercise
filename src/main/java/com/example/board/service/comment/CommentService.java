@@ -23,9 +23,9 @@ public class CommentService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long commentSave(Long boardId, Long userId, CommentSaveRequestDto requestDto){
+    public Long commentSave(Long boardId, String email, CommentSaveRequestDto requestDto){
         // 유저, 보드 조회
-        User user = userRepository.findById(userId).orElseThrow(
+        User user = userRepository.findByEmail(email).orElseThrow(
                 ()-> new IllegalArgumentException("해당 유저가 없습니다."));
         Board board = boardRepository.findById(boardId).orElseThrow(
                 ()-> new IllegalArgumentException("해당 게시글이 없습니다."));
@@ -46,5 +46,13 @@ public class CommentService {
                     () -> new IllegalArgumentException("해당 댓글이 없습니다."));
 
         return new CommentResponseDto(comment);
+    }
+
+    @Transactional
+    public void delete(Long id){
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 댓글이 없습니다."));
+
+        commentRepository.delete(comment);
     }
 }

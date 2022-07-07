@@ -19,6 +19,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     Page<Board> findByTitleContaining(String title, Pageable pageable);
 
-    @Query("SELECT b FROM Board b WHERE b.user.nickname LIKE %:author%")
-    Page<Board> findByAuthorDesc(@Param("author") String author, Pageable pageable);
+    @Query("SELECT b FROM Board b WHERE b.user.name LIKE %:author%")
+    Page<Board> findByNameDesc(@Param("author") String name, Pageable pageable);
 }

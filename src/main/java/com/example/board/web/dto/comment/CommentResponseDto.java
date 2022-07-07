@@ -9,15 +9,17 @@ import lombok.NoArgsConstructor;
 public class CommentResponseDto {
     private Long id;
     private String comment;
-    private String nickname;
+    private String name;
     private String modifiedDate;
+    private Long userId;
     private Long boardId;
 
     public CommentResponseDto(Comment comment){
         this.id = comment.getId();
         this.comment = comment.getComment();
-        this.nickname = comment.getUser().getNickname();
+        this.name = comment.getUser().getName();
         this.modifiedDate = comment.getModifiedDate();
+        this.userId = comment.getUser().getId();
         this.boardId = comment.getBoard().getId();
     }
 
@@ -26,7 +28,7 @@ public class CommentResponseDto {
         return "CommentResponseDto{" +
                 "id=" + id +
                 ", comment='" + comment + '\'' +
-                ", nickname='" + nickname + '\'' +
+                ", nickname='" + name + '\'' +
                 ", modifiedDate='" + modifiedDate + '\'' +
                 ", boardId=" + boardId +
                 '}';
