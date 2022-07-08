@@ -8,6 +8,7 @@ import com.example.board.service.board.BoardService;
 import com.example.board.web.dto.board.BoardListResponseDto;
 import com.example.board.web.dto.board.BoardResponseDto;
 import com.example.board.web.dto.UserListResponseDto;
+import com.example.board.web.dto.comment.CommentListResponseDto;
 import com.example.board.web.dto.comment.CommentResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -52,9 +53,10 @@ public class indexController {
     }
 
     @GetMapping("/boardList")
-    public String indexBoardList(Model model, @PageableDefault(size=5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-                    @RequestParam(required = false, defaultValue = "") String select,
-                    @RequestParam(required=false, defaultValue = "") String searchText){
+    public String indexBoardList(Model model, @PageableDefault(size=5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+                                ,@RequestParam(required = false, defaultValue = "") String select
+                                ,@LoginUser SessionUser user
+                                ,@RequestParam(required=false, defaultValue = "") String searchText){
         System.out.println("SearchText : " + searchText);
         Page<BoardListResponseDto> boardList = boardService.findBoardList(searchText, select, pageable);
 
@@ -64,21 +66,19 @@ public class indexController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("boardList", boardList);
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
         String userName= user==null?"":user.getName();
         model.addAttribute("userName", user.getName());
 
         return "board/boardList";
     }
     @GetMapping("/boardDetail/{id}")
-    public String boardDetail(@PathVariable Long id, Model model){
+    public String boardDetail(@PathVariable Long id, Model model, @LoginUser SessionUser user){
         BoardResponseDto board = boardService.findById(id);
-        List<CommentResponseDto> commentList = board.getComments();
+        List<CommentListResponseDto> commentList = board.getComments();
         System.out.println("댓글 갯수 : " + commentList.size());
         if(commentList != null && !commentList.isEmpty()){
             model.addAttribute("commentList",commentList);
         }
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
         String userName= user==null?"":user.getName();
         model.addAttribute("userName", userName);
         model.addAttribute("board", board);
@@ -89,6 +89,7 @@ public class indexController {
     // Member Index
     @GetMapping("/userList")
     public String getUserList(Model model, @PageableDefault(size=2, sort = "id", direction = Sort.Direction.DESC) Pageable pageable
+                                ,@LoginUser SessionUser user
                                 ,@RequestParam(required = false, defaultValue = "") String select
                                 ,@RequestParam(required = false, defaultValue = "") String searchText){
         System.out.println("선택 : " + select + '\n'+ "검색 : " + searchText);
@@ -101,7 +102,6 @@ public class indexController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("userList",userList);
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
         String userName= user==null?"":user.getName();
         model.addAttribute("userName", user.getName());
 
