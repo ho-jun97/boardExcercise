@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/","/asset/**","/loginForm","/boardList").permitAll()
+                    .antMatchers("/join","/oauth2/**","/","/asset/**","/loginForm","/boardList").permitAll()
                     .antMatchers("/boardList").hasRole(Role.USER.name())
                     .anyRequest().authenticated()
                 .and()
