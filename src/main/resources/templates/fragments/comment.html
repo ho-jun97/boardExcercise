@@ -18,8 +18,7 @@
                     <h6 th:text="${comment.comment}"></h6>
                 </div>
                 <div th:if="${comment.getUser().getId()==user.getId()}">
-                    <a th:href="@{/board/{boardId}/comment/delete/{commentId}(boardId=${board.getId()}, commentId=${comment.getId()})}"
-                       class="btn btn-danger">삭제</a>
+                    <a class="btn btn-danger" id="btn-comment-delete" th:attr="onclick=|deleteComment('${board.getId()}')|">삭제</a>
                     <button type="submit" class="btn btn-primary">수정</button>
                 </div>
                 <hr>

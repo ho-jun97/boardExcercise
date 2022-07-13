@@ -29,9 +29,9 @@ public class CommentController {
         return "redirect:/boardDetail/{id}";
     }
 
-    @GetMapping("/board/{boardId}/comment/delete/{commentId}")
-    public String delete(@PathVariable("boardId") Long boardId,
-                         @PathVariable("commentId") Long commentId){
+    @GetMapping("/board/comment/delete/{commentId}")
+
+    public String delete(@PathVariable("commentId") Long commentId){
         commentService.delete(commentId);
 
         return "redirect:/boardDetail/{boardId}";
