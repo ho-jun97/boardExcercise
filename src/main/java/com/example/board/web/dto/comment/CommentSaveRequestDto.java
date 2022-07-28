@@ -15,7 +15,7 @@ public class CommentSaveRequestDto {
         this.comment = comment;
     }
 
-    public Comment toEntity(){
+    public Comment toEntity() {
         return Comment.builder()
                 .comment(comment)
                 .build();

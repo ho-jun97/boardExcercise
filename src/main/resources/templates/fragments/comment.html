@@ -1,42 +1,48 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:fragment="commentFragment">
-    <div>총 댓글 수:
-        <span th:if="${commentList != null}" th:text="${commentList.size()}"></span>
-        <span th:if="${commentList == null}" th:text="0"></span>
-    </div>
-    <br>
-    <!--댓글 리스트-->
-    <div>
-        <form th:action="@{/board/{id}/comment/update/(id=${board.getId()})}" th:each="comment : ${commentList}">
-            <div>
-                <hr>
-                <span><img th:src="${comment.user.picture}" width="100" height="100"/></span>
-                <span th:text="${comment.user.name}"></span>
+    <div id="commentContainer">
+        <div>총 댓글 수:
+            <span th:if="${commentList != null}" th:text="${commentList.size()}"></span>
+            <span th:if="${commentList == null}" th:text="0"></span>
+        </div>
+        <br>
+        <hr>
+        <!--댓글 리스트-->
+        <div>
+            <form th:action="@{/board/{id}/comment/update/(id=${board.getId()})}" th:each="comment : ${commentList}">
                 <div>
-                    <h6 th:text="${comment.modifiedDate}"></h6>
-                    <h6 th:text="${comment.comment}"></h6>
-                </div>
-                <div th:if="${comment.getUser().getId()==user.getId()}">
-                    <a class="btn btn-danger" id="btn-comment-delete"  th:attr="onclick=|deleteComment('${board.id}','${comment.id}')|">삭제</a>
-                    <button type="submit" class="btn btn-primary">수정</button>
+
+                    <div class="mb-3">
+                        <span><img th:src="${comment.user.picture}" width="75" height="75"/></span>
+                        <span class="mx-2" style="font-size: large;" th:text="${comment.user.name}"></span>
+                    </div>
+                    <div class="mx-3">
+                        <span th:text="${comment.comment}"></span>
+                        <span th:text="${comment.modifiedDate}"></span>
+                    </div>
+                    <div class="mx-3" th:if="${comment.getUser().getId()==user.getId()}">
+                        <a class="btn btn-secondary"
+                           th:attr="onclick=|deleteComment('${board.id}','${comment.id}')|">삭제</a>
+                        <button type="submit" class="btn btn-secondary">수정</button>
+                    </div>
                 </div>
                 <hr>
-            </div>
-        </form>
-    </div>
-    <!--댓글 입력-->
-    <div>
-        <form th:action="@{/board/{id}/comment/save(id=${board.getId()})}" method="post">
-            <div class="input-group mb-3">
-                <span class="input-group-text">댓글</span>
-                <textarea class="form-control" aria-label="With textarea" id="comment" name="comment"></textarea>
-            </div>
+            </form>
+        </div>
+        <!--댓글 입력-->
+        <div>
+            <form>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">댓글</span>
+                    <textarea class="form-control" aria-label="With textarea" id="comment" name="comment"></textarea>
+                </div>
+            </form>
             <div class="text-end">
-                <button type="submit" class="btn btn-primary">입력</button>
+                <button type="button" id="btn-comment-save" class="btn btn-primary">입력</button>
             </div>
-        </form>
+        </div>
     </div>
+    <script type="text/javascript" th:src="@{/js/comment.js}"></script>
 </th:block>
-
 </html>
