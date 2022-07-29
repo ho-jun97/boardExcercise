@@ -7,6 +7,7 @@ import com.example.board.service.comment.CommentService;
 import com.example.board.web.dto.board.BoardResponseDto;
 import com.example.board.web.dto.comment.CommentResponseDto;
 import com.example.board.web.dto.comment.CommentSaveRequestDto;
+import com.example.board.web.dto.comment.CommentUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,17 +32,27 @@ public class CommentController {
         BoardResponseDto boardDto = boardService.findById(boardId);
 
         model.addAttribute("commentList", boardDto.getComments());
-        String userName= user==null?"":user.getName();
-        model.addAttribute("userName", userName);
         model.addAttribute("board", boardDto);
         model.addAttribute("user", user);
-        return "/fragments/comment::#commentContainer";
+        return "/fragments/comment :: #commentContainer";
     }
 
     @DeleteMapping("/comment/delete/{id}")
-    public @ResponseBody String delete(@PathVariable Long id){
+    public String delete(@PathVariable Long id,@RequestBody Long boardId, Model model,@LoginUser SessionUser user){
         System.out.println("===> " + id +"댓글 삭제 진행중");
-//        commentService.delete(commentId);
-        return "글이 삭제되었습니다.";
+        System.out.println("board 아이디 값 : "+boardId);
+        commentService.delete(id);
+        BoardResponseDto boardDto = boardService.findById(boardId);
+        model.addAttribute("commentList", boardDto.getComments());
+        model.addAttribute("board", boardDto);
+        model.addAttribute("user", user);
+        return "/fragments/comment :: #commentContainer";
+    }
+
+    @PutMapping("/comment/update/{id}")
+    public String update(@PathVariable Long id, @RequestBody CommentUpdateRequestDto requestDto){
+        commentService.update(id, requestDto);
+
+        return "/fragments/comment :: #commentContainer";
     }
 }

@@ -15,15 +15,19 @@
 
                     <div class="mb-3">
                         <span><img th:src="${comment.user.picture}" width="75" height="75"/></span>
-                        <span class="mx-2" style="font-size: large;" th:text="${comment.user.name}"></span>
+                    </div>
+                    <div>
+                        <span class="mx-3" style="font-weight: bold" th:text="${comment.user.name}"></span>
                     </div>
                     <div class="mx-3">
                         <span th:text="${comment.comment}"></span>
+                    </div>
+                    <div class="text-end">
                         <span th:text="${comment.modifiedDate}"></span>
                     </div>
-                    <div class="mx-3" th:if="${comment.getUser().getId()==user.getId()}">
+                    <div class="text-end my-3" th:if="${comment.getUser().getId()==user.getId()}">
                         <a class="btn btn-secondary"
-                           th:attr="onclick=|deleteComment('${board.id}','${comment.id}')|">삭제</a>
+                           th:attr="onclick=|deleteComment('${comment.id}')|">삭제</a>
                         <button type="submit" class="btn btn-secondary">수정</button>
                     </div>
                 </div>
@@ -39,10 +43,11 @@
                 </div>
             </form>
             <div class="text-end">
-                <button type="button" id="btn-comment-save" class="btn btn-primary">입력</button>
+                <button type="button" id="btn-comment-save"
+                        th:attr="onclick=|saveComment()|" class="btn btn-primary">입력</button>
             </div>
         </div>
     </div>
-    <script type="text/javascript" th:src="@{/js/comment.js}"></script>
 </th:block>
+<script type="text/javascript" th:src="@{/js/comment.js}"></script>
 </html>

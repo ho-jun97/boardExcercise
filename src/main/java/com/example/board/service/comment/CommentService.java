@@ -8,6 +8,7 @@ import com.example.board.domain.user.User;
 import com.example.board.domain.user.UserRepository;
 import com.example.board.web.dto.comment.CommentResponseDto;
 import com.example.board.web.dto.comment.CommentSaveRequestDto;
+import com.example.board.web.dto.comment.CommentUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,5 +55,13 @@ public class CommentService {
                 () -> new IllegalArgumentException("해당 댓글이 없습니다."));
 
         commentRepository.delete(comment);
+    }
+
+    @Transactional
+    public void update(Long id, CommentUpdateRequestDto requestDto){
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 댓글이 없습니다."));
+
+        comment.update(requestDto.getComment());
     }
 }
