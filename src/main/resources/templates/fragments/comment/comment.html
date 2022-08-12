@@ -10,7 +10,7 @@
         <hr>
         <!--댓글 리스트-->
         <div>
-            <form th:action="@{/board/{id}/comment/update/(id=${board.getId()})}" th:each="comment : ${commentList}">
+            <div th:each="comment : ${commentList}">
                 <div>
 
                     <div class="mb-3">
@@ -19,20 +19,28 @@
                     <div>
                         <span class="mx-3" style="font-weight: bold" th:text="${comment.user.name}"></span>
                     </div>
-                    <div class="mx-3">
-                        <span th:text="${comment.comment}"></span>
+                    <!--댓글 내용-->
+                    <div th:id="'comment-view'+${comment.id}">
+                        <th:block th:replace="/fragments/comment/commentView :: commentViewFragment"></th:block>
                     </div>
-                    <div class="text-end">
-                        <span th:text="${comment.modifiedDate}"></span>
+                    <!--댓글 수정-->
+                    <div th:id="'comment-update'+${comment.id}" style="display: none">
+                        <th:block th:replace="/fragments/comment/commentUpdate :: commentUpdateFragment"></th:block>
                     </div>
-                    <div class="text-end my-3" th:if="${comment.getUser().getId()==user.getId()}">
-                        <a class="btn btn-secondary"
-                           th:attr="onclick=|deleteComment('${comment.id}')|">삭제</a>
-                        <button type="submit" class="btn btn-secondary">수정</button>
-                    </div>
+<!--                    <div class="mx-3">-->
+<!--                        <span th:text="${comment.comment}"></span>-->
+<!--                    </div>-->
+<!--                    <div class="text-end">-->
+<!--                        <span th:text="${comment.modifiedDate}"></span>-->
+<!--                    </div>-->
+<!--                    <div class="text-end my-3" th:if="${comment.getUser().getId()==user.getId()}">-->
+<!--                        <a class="btn btn-secondary"-->
+<!--                           th:attr="onclick=|deleteComment('${comment.id}')|">삭제</a>-->
+<!--                        <button type="submit" class="btn btn-secondary">수정</button>-->
+<!--                    </div>-->
                 </div>
                 <hr>
-            </form>
+            </div>
         </div>
         <!--댓글 입력-->
         <div>

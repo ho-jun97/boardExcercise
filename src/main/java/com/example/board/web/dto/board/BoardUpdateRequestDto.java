@@ -18,10 +18,4 @@ public class BoardUpdateRequestDto {
         this.content = content;
     }
 
-    @Builder
-    public BoardUpdateRequestDto(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
-
 }

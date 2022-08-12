@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="commentUpdateFragment">
+        <div>
+            <textarea style="width:100%;" type="text" th:id="'comment-content'+${comment.id}" th:text="${comment.comment}">
+
+            </textarea>
+        </div>
+        <div class="text-end my-3">
+            <button class="btn btn-secondary" th:attr="onclick=|updateCancel('${comment.id}')|">취소</button>
+            <button class="btn btn-secondary" th:attr="onclick=|updateComment('${comment.id}')|">수정</button>
+        </div>
+</th:block>
+</html>

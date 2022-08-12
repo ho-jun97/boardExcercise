@@ -43,13 +43,7 @@ public class Comment extends BaseTimeEntity {
         this.board = board;
     }
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", comment='" + comment + '\'' +
-                ", board=" + board +
-                ", user=" + user +
-                '}';
+    public void update(String comment){
+        this.comment = comment;
     }
 }

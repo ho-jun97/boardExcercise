@@ -34,25 +34,29 @@ public class CommentController {
         model.addAttribute("commentList", boardDto.getComments());
         model.addAttribute("board", boardDto);
         model.addAttribute("user", user);
-        return "/fragments/comment :: #commentContainer";
+        return "/fragments/comment/comment :: #commentContainer";
     }
 
     @DeleteMapping("/comment/delete/{id}")
     public String delete(@PathVariable Long id,@RequestBody Long boardId, Model model,@LoginUser SessionUser user){
-        System.out.println("===> " + id +"댓글 삭제 진행중");
-        System.out.println("board 아이디 값 : "+boardId);
         commentService.delete(id);
         BoardResponseDto boardDto = boardService.findById(boardId);
         model.addAttribute("commentList", boardDto.getComments());
         model.addAttribute("board", boardDto);
         model.addAttribute("user", user);
-        return "/fragments/comment :: #commentContainer";
+        return "/fragments/comment/comment :: #commentContainer";
     }
 
     @PutMapping("/comment/update/{id}")
-    public String update(@PathVariable Long id, @RequestBody CommentUpdateRequestDto requestDto){
+    public String update(@PathVariable Long id,Model model,
+                         @RequestBody CommentUpdateRequestDto requestDto, @LoginUser SessionUser user){
         commentService.update(id, requestDto);
+        CommentResponseDto commentDto = commentService.getComment(id);
+        BoardResponseDto boardDto = boardService.findById(commentDto.getBoardId());
+        model.addAttribute("commentList", boardDto.getComments());
+        model.addAttribute("board", boardDto);
+        model.addAttribute("user", user);
 
-        return "/fragments/comment :: #commentContainer";
+        return "/fragments/comment/comment :: #commentContainer";
     }
 }

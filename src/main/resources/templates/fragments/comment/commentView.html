@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="commentViewFragment">
+    <div id="comment-update">
+        <div class="mx-3">
+            <span th:text="${comment.comment}"></span>
+        </div>
+        <div class="text-end">
+            <span th:text="${comment.modifiedDate}"></span>
+        </div>
+        <div class="text-end my-3" th:if="${comment.getUser().getId()==user.getId()}">
+            <a class="btn btn-secondary"
+               th:attr="onclick=|deleteComment('${comment.id}')|">삭제</a>
+            <a class="btn btn-secondary"
+               th:attr="onclick=|update('${comment.id}')|">수정</a>
+        </div>
+    </div>
+</th:block>
+</html>
