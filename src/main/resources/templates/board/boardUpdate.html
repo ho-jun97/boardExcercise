@@ -4,7 +4,7 @@
 <nav th:replace="fragments/navigation :: menu(${userName})"></nav>
 <body>
 <div class="container">
-    <h1>Board Update</h1>
+    <h1>게시판 상세보기</h1>
     <div>
         <form th:action="@{/board/update/{id}(id=${board.getId()})}" method="post">
             <!-- hidden 영역 -->
